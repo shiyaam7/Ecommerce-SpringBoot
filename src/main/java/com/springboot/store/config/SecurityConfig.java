@@ -68,11 +68,19 @@ public class SecurityConfig {
 
                 // Define authorization rules for different endpoints
                 .authorizeHttpRequests(c -> c
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/swagger-ui.html").permitAll()
+                                .requestMatchers("/v3/api-docs/**").permitAll()
                                 .requestMatchers("/carts/**").permitAll() // Anyone can access cart APIs
+                                .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.POST, "/users").permitAll() // Registration allowed
+                                .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/products/**").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT, "/products/**").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole(Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.POST,"/auth/login").permitAll() // Login allowed
                                 .requestMatchers(HttpMethod.POST,"/auth/refresh").permitAll() // Login allowed
-                                .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
+
 //                  .requestMatchers(HttpMethod.POST,"/auth/validate").permitAll() // (optional) validate endpoint
                                 .requestMatchers(HttpMethod.POST, "/checkout/webhook").permitAll()
                                 .anyRequest().authenticated() // All other requests require authentication
