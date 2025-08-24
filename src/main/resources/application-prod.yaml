@@ -1,9 +1,4 @@
 spring:
-
   datasource:
     url: ${SPRING_DATASOURCE_URL}
-
-  jpa:
-    show-sql: true
-
-websiteUrl:
+websiteUrl: https://mystore.com
